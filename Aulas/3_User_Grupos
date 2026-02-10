@@ -1,0 +1,78 @@
+# Gerenciamento de Usuários e Grupos no Linux
+## Criação de Usuários, Grupos, Senhas e Arquivos de Controle
+
+Em sistemas Linux, o controle de acesso é baseado em **usuários** e **grupos**. Cada pessoa ou serviço que utiliza o sistema opera com uma identidade própria, o que permite aplicar permissões, restrições e auditoria. Em servidores, o gerenciamento correto dessas contas é fundamental para segurança e organização.
+
+Este material apresenta os conceitos e comandos básicos para:
+
+- criar usuários
+- criar grupos
+- gerenciar senhas
+- entender os arquivos que armazenam essas informações
+
+---
+
+# Conceitos Fundamentais
+
+## 👤 Usuário
+É uma conta individual usada para login e execução de processos. Possui:
+
+- nome de usuário
+- UID (User ID)
+- diretório home
+- shell padrão
+- senha
+
+---
+
+## 👥 Grupo
+É um conjunto de usuários. Serve para facilitar o controle de permissões sobre:
+
+- diretórios
+- arquivos
+- serviços
+
+Cada usuário possui:
+
+- grupo primário
+- grupos secundários (opcional)
+
+---
+
+# Criação de Usuários
+
+## ➕ Criar usuário — `useradd`
+
+```bash
+sudo useradd aluno1
+```
+
+Cria o usuário, mas sem senha e sem diretório home (dependendo da distro).
+
+Criar usuário com diretório home
+```
+sudo useradd -m aluno1
+```
+
+## Criar usuário com shell definido
+```
+sudo useradd -m -s /bin/bash aluno1
+```
+
+Criar usuário com grupo específico
+```
+sudo useradd -m -g turma aluno1
+```
+## Método interativo — adduser
+```
+sudo adduser aluno1
+```
+
+Esse comando:
+
+- cria home
+
+- pede senha
+
+- solicita dados descritivos
+
