@@ -1,5 +1,5 @@
 
-# Resumo — Repositórios e Atualização de Pacotes no Ubuntu (APT)
+# Repositórios e Atualização de Pacotes no Ubuntu (APT)
 
 ## 📍 Localização dos Arquivos de Repositórios
 
