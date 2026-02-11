@@ -1,0 +1,66 @@
+## 1) Controle de processos
+sleep 300
+Ctrl+Z
+bg
+jobs
+ps
+kill PID
+
+## 2) Visualização de processos
+
+ps aux
+top
+pstree
+echo $$
+
+
+## 3) Finalizar processo pelo nome
+
+yes &
+killall yes
+
+
+## 4) Criar usuário
+
+sudo adduser aluno_proc
+
+
+## 5) Criar grupo e adicionar usuário
+
+sudo groupadd turma_proc
+sudo usermod -aG turma_proc aluno_proc
+
+
+## 6) Ver UID, GID e grupos
+
+id aluno_proc
+groups aluno_proc
+
+# 📝 Parte B — Múltipla Escolha
+
+## 7) O diretório raiz do Linux é:
+✅ C) /
+
+## 8) Diretório de configurações do sistema:
+✅ A) /etc
+
+## 9) Diretório moderno de repositórios APT no Ubuntu:
+✅ B) /etc/apt/sources.list.d/
+
+## 10) Função do diretório /home:
+✅ C) diretórios pessoais
+
+## 11) /root é:
+✅ A) pasta do administrador
+
+## 12) Arquivo com dados básicos de usuários:
+✅ B) /etc/passwd
+
+## 13) Senhas criptografadas ficam em:
+✅ C) /etc/shadow
+
+## 14) /etc/group serve para:
+✅ B) grupos
+
+## 15) /var armazena:
+✅ A) logs e cache
