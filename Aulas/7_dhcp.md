@@ -23,7 +23,7 @@ Configurar Escopo DHCP
 Arquivo principal:
 ```
 /etc/dhcp/dhcpd.conf
-
+```
 Exemplo de configuração:
 ```
 subnet 192.168.1.0 netmask 255.255.255.0 {
