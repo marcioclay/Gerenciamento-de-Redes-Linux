@@ -10,3 +10,19 @@ Antes de configurar, identifique o nome da interface:
 '''
 ip a
 '''
+
+/etc/netplan/ 
+
+
+O Netplan aplica configurações usando `systemd-networkd` ou `NetworkManager`.
+
+---
+
+# 📍 1. Verificar Interfaces de Rede
+
+Antes de configurar, identifique o nome da interface:
+
+
+
+```bash
+ip a
