@@ -63,7 +63,7 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    ens33:
+    enp0s3:
       dhcp4: false
       addresses:
         - 192.168.1.100/24
