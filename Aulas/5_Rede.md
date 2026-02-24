@@ -89,6 +89,11 @@ Após salvar o arquivo:
 ```
 sudo netplan apply
 ```
+Reiniciar a rede
+```
+sudo systemctl restart systemd-networkd
+```
+
 Para testar antes de aplicar definitivamente:
 ```
 sudo netplan try
