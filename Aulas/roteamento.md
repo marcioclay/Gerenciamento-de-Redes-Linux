@@ -1,4 +1,4 @@
-### Funcionamento do servidor Ubuntu como um gateway e servidor DNS (BIND) entre a rede interna e a internet (NAT), precisamos configurar três pilares:
+### Funcionamento do servidor Ubuntu como um gateway e servidor DNS (BIND) entre a rede interna e a internet (NAT):
 - interfaces de rede,
 - o encaminhamento de pacotes (IP Forwarding)
 - configuração básica do BIND.
