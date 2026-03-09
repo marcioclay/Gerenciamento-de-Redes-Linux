@@ -1,8 +1,3 @@
-### Funcionamento do servidor Ubuntu como um gateway e servidor DNS (BIND) entre a rede interna e a internet (NAT):
-- interfaces de rede,
-- o encaminhamento de pacotes (IP Forwarding)
-- configuração básica do BIND.
-
 ### 1. Configuração de Rede (Netplan)No Ubuntu, a configuração é feita via Netplan. Identifique suas placas (geralmente enp0s3 e enp0s8) com ip link. Edite o arquivo: sudo nano /etc/netplan/01-netcfg.yaml (o nome pode variar).YAMLnetwork:
 ```
 version: 2
@@ -18,51 +13,45 @@ version: 2
 ```
 sudo netplan apply
 ```
-### 2. Ativar Internet para a Rede Interna (IP Forwarding)Como a rede interna precisa acessar a internet via placa NAT, o Ubuntu deve atuar como roteador. Habilitar o encaminhamento:
-Edite: 
-```
-sudo nano /etc/sysctl.conf
-```
-Descomente a linha: net.ipv4.ip_forward=1
+### 2. Para configurar o seu servidor Ubuntu como um roteador (fazendo a ponte entre a rede interna e a internet via NAT), você precisa de dois passos: ativar o encaminhamento de pacotes no núcleo (kernel) e configurar a tabela de roteamento (NAT).
 
-Aplique: 
+1. Ativar o IP Forwarding (Kernel)
+Este comando diz ao Linux que ele pode receber um pacote em uma placa e enviá-lo por outra.
+
+Para ativar imediatamente (temporário):
+
 ```
-sudo sysctl -p
+sudo sysctl -w net.ipv4.ip_forward=1
 ```
-Configurar o NAT (Masquerade) com iptables: Para garantir que o tráfego da rede interna saia pela NAT:
+Para tornar permanente (após reiniciar):
+
+Edite o arquivo: sudo nano /etc/sysctl.conf
+
+Procure a linha #net.ipv4.ip_forward=1 e remova o # (descomente).
+
+Salve (Ctrl+O, Enter) e saia (Ctrl+X).
+
+Aplique com: sudo sysctl -p
+
+2. Configurar o NAT (Masquerade) no Firewall
+O IP Forwarding sozinho não é suficiente porque a internet não sabe como devolver pacotes para o seu IP privado (192.168.10.x). O Masquerade "mascara" o IP interno com o IP da sua placa NAT externa.
+
+Assumindo que sua placa externa (NAT) seja enp0s3:
+
 ```
 sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
 ```
-(Para tornar essa regra persistente, instale o pacote iptables-persistent).
-### 3. Configuração do BIND9Com o BIND instalado (sudo apt install bind9), você deve configurar quem pode fazer consultas e para onde os pedidos externos devem ser enviados (Forwarders).
-Edite o arquivo de opções: sudo nano /etc/bind/named.conf.options
-```
-DNS Zone file
-acl "trusted" {
-        127.0.0.0/8;
-        192.168.10.0/24;  # Sua rede interna
-};
+3. Tornar as regras de IPTables permanentes
+Por padrão, o iptables apaga as regras ao reiniciar. Para salvar:
 
-options {
-        directory "/var/cache/bind";
+Instale o utilitário:
 
-        recursion yes;
-        allow-query { trusted; };
+```
+sudo apt update && sudo apt install iptables-persistent
+```
+Durante a instalação, selecione "Yes" para salvar as regras atuais de IPv4.
 
-        # Encaminha consultas que ele não conhece (ex: google.com) para o DNS do Google
-        forwarders {
-                8.8.8.8;
-                8.8.4.4;
-        };
-
-        dnssec-validation auto;
-        listen-on-v6 { any; };
-};
-```
-Reinicie o serviço:
-```
-sudo systemctl restart bind9
-```
+Dica de Diagnóstico: Se as máquinas internas ainda não navegarem, verifique se elas estão com o Gateway Padrão configurado como o IP da placa interna do seu servidor (192.168.10.1).
 4. Resumo da Topologia
 <img width="512" height="142" alt="image" src="https://github.com/user-attachments/assets/ee253589-1fc5-4ceb-b75a-a098f5a94952" />
 
